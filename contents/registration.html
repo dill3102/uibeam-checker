@@ -1,0 +1,25 @@
+
+<h2>検閲対象文字登録</h2>
+
+<button onclick="SetNowRegisterKey('う'); debugTargetCharacters(); updateList(getNowRegisterKey())">う</button>
+<button onclick="SetNowRegisterKey('い'); debugTargetCharacters(); updateList(getNowRegisterKey())">い</button>
+<button onclick="SetNowRegisterKey('び'); debugTargetCharacters(); updateList(getNowRegisterKey())">び</button>
+<button onclick="SetNowRegisterKey('ー'); debugTargetCharacters(); updateList(getNowRegisterKey())">ー</button>
+<button onclick="SetNowRegisterKey('む'); debugTargetCharacters(); updateList(getNowRegisterKey())">む</button>
+
+
+<label for="inputField">入力欄 (1文字まで):</label>
+<input type="text" id="inputField" maxlength="1" />
+<button id="submitButton" onclick="SubmitButton();updateList(getNowRegisterKey());updateTargetTable();">登録</button>
+
+<button id="submitButton" onclick="removeRegisteredCharacterAll();updateList(getNowRegisterKey());updateTargetTable();">全消去</button>
+
+<button id="submitButton" onclick="removeRegisteredCharacterAll(); setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化</button>
+
+<button id="submitButton" onclick="removeRegisteredCharacterAll(); setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化(ガチ)</button>
+
+<h3>登録された文字一覧:</h3>
+<ul id="CharacterList"></ul>
+
+<h3>検閲対象の文字群</h3>
+<censorship-targets-table id="registration-taget-table" data-target="Registered"></censorship-targets-table>

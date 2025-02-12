@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ういびーむチェッカー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="?content=home" onclick="loadContent('home')">
+            <img src="sample_images/title.png" alt="タイトルロゴ" class="logo">
+        </a>
+    </header>
+    
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+                <li><a href="?content=home" onclick="loadContent('home')">ホーム</a></li>
+                <li><a href="?content=registration" onclick="loadContent('registration')">検閲対象文字登録</a></li>
+                <li><a href="?content=censorship" onclick="loadContent('censorship')">検閲を実施</a></li>
+                <li><a href="?content=usage" onclick="loadContent('usage')">使い方</a></li>
+                <li><a href="?content=contact" onclick="loadContent('contact')">お問い合わせ</a></li>
+                <li><a href="?content=Special_Thanks" onclick="loadContent('Special_Thanks')">Special Thanks</a></li>
+            </ul>
+        </nav>
+        <main id="content"><!-- ここに外部HTMLが読み込まれる --></main>
+    </div>
+    <script src="script.js" defer></script>
+</body>
+</html>
+
+

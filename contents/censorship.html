@@ -1,0 +1,25 @@
+<h2>検閲をおこなう</h2>
+<!-- 検閲文章入力 -->
+<p>入力欄</p>
+<textarea 
+    rows="10" 
+    cols="100"
+    id="CensorshipTextInputField"
+    placeholder=
+'うちの娘がうい先生のファンで
+いつもかじりついて配信をみていますw
+
+美術の授業でもうい先生の絵を描いて
+1番かわいくできた と持って帰って飾ってます。
+
+娘は本当は居ません'
+></textarea>
+
+<button id="submitButton" onclick='execCensorship("CensorshipTextInputField","censorship-censored-grid","Registered");'>検閲を実施</button>
+
+<h3>検閲結果</h3>
+ <div id="censorship-censored-grid"></div>
+
+<h3>検閲対象の文字群</h3>
+<censorship-targets-table data-target="Registered"></censorship-targets-table>
+

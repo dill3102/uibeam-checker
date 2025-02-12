@@ -1,0 +1,32 @@
+<div style="height: 100%;">
+<h2>ういびーむ検閲を試す</h2>
+
+<li>検閲対象文字(サンプルのみ)</li>
+<censorship-targets-table data-target="Sample"></censorship-targets-table>
+
+
+
+<label for="inputField">入力欄 </label>
+<textarea 
+    rows="10" 
+    cols="100"
+    id="SampleTextInputField"
+    placeholder=
+'うちの娘がうい先生のファンで
+いつもかじりついて配信をみていますw
+
+美術の授業でもうい先生の絵を描いて
+1番かわいくできた と持って帰って飾ってます。
+
+娘は本当は居ません'
+></textarea>
+
+<button id="submitButton" onclick='execCensorship("SampleTextInputField","home-censored-grid","Sample");'>検閲を実施</button>
+
+<p >検閲結果</p>
+<div 
+    id="home-censored-grid"
+    ></div>
+</div>
+
+
