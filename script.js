@@ -10,7 +10,7 @@ function loadContent(page) {
     if (content != null  && content != "" ){
         page = content
     }
-
+    
     fetch(`contents/${page}.html`)
         .then(response => response.text())
         .then(html => {
@@ -21,6 +21,10 @@ function loadContent(page) {
 
 // 初回ページ表示（デフォルト: ホーム）
 document.addEventListener("DOMContentLoaded", () => {
+    if (isRegisteredNull()){
+        setSampleTargets()
+    }
+    
     loadContent('home');    
 });
 
@@ -137,6 +141,10 @@ function GetRegisteredForLocalStorage(){
     return new Map(Object.entries(obj))
 }
 
+function isRegisteredNull(){
+    return isFalsy(JSON.parse(localStorage.getItem(LocalStorageKeyTargetKeys)));
+}
+
 
 // --------------------------------------------
 // register key utils
@@ -209,8 +217,15 @@ const HtmlKeyTargetTable = "registration-taget-table"
 function updateList(key) {
     const charList = document.getElementById(HtmlKeyCharacterList);
     charList.innerHTML = ''; // 既存のリストをクリア
-
+    
     var list = getTargetCharacters(key)
+    if(list.length==0){
+        charList.textContent="検閲対象文字が登録されていません。"
+        charList.style.paddingLeft="10px"
+        return
+    }
+    charList.style.paddingLeft="0px"
+
     list.forEach((char) => {
         const box = createTargetCharacterBox(key,char)
         charList.appendChild(box);
@@ -224,10 +239,11 @@ function createTargetCharacterBox(key,character){
     box.style.padding = "10px 20px"; // 余白
     box.style.margin = "5px"; // 間隔
     box.style.border = "1px solid black"; // 枠線
-    //box.style.outline = "2px solid red"; // ✨ アウトライン（赤色）
     box.style.borderRadius = "5px"; // 角を少し丸める
     box.style.backgroundColor = "#f8f8f8"; // 背景色
+    box.style.width = "20px";
     box.style.fontSize = "16px";
+    box.style.textAlign = "center";
     box.textContent = character;
 
     const closeButton = document.createElement("span");
@@ -368,7 +384,9 @@ class BeamCtrl {
         this.defaultText = ""
         this.generated = false
         this.textData = []
+        this.maxRowLength = 0
         this.checkBeam(text,registeredTarget)
+        this.normalizeLength()
         this.checkAns()
     }
 
@@ -377,8 +395,16 @@ class BeamCtrl {
         if (isFalsy(registeredTarget)){
             registeredTarget = RegisteredTarget.Sample
         }
-
         this.generateText(text, registeredTarget)
+    }
+    
+    normalizeLength(){
+        for (let i=0; i<this.textData.length;i++ ){
+            for (let j=this.textData[i].length; j < this.maxRowLength;j++ ){
+                this.textData[i].push(new BeamPart(""," "))
+            }
+        }
+        
     }
 
     // BeamCtrl準備
@@ -386,7 +412,12 @@ class BeamCtrl {
         this.defaultText = text
 		this.generated =  true
         text.split("\n").forEach((t)=>{
-            if (t==""){ return }
+            t = t.trim()
+            if (t == ""){ return }
+            if (t.length > this.maxRowLength){
+                this.maxRowLength = t.length
+                console.log(t, "length:",this.maxRowLength)
+            }
             this.textData.push(this.checkIsUiBeamText(t,registeredTarget))
         })
     }
@@ -466,8 +497,14 @@ function createHeader() {
     let tr = document.createElement("tr")
     let th1 = document.createElement("th")
     let th2 = document.createElement("th")
-
     th1.textContent = "キー"
+    th1.style.whiteSpace="nowrap"
+    th1.style.textAlign="center"
+    th1.style.backgroundColor="#008080"
+    th2.style.backgroundColor="#008080"
+    th1.style.color="white"
+    th2.style.color="white"
+
     th2.textContent = "各要素の検閲対象文字"
     tr.appendChild(th1);
     tr.appendChild(th2);
@@ -475,28 +512,7 @@ function createHeader() {
     return header
 }
 
-function createBodies(){
-    let body = document.createElement("tbody")
-    var keys = getRegisterKeys()
-    // 配列の各要素をリストに追加
-    keys.forEach((key) => {
-        var characters = getTargetCharacters(key)
-        
-        // row 作成 + key valueを作成して追加
-        const row = document.createElement("tr");
-        const keyCell = document.createElement("td");
-        keyCell.textContent = key;
-        row.appendChild(keyCell);
-        
-        const valueCell = document.createElement("td");
-        valueCell.textContent = characters.join(", "); 
-        row.appendChild(valueCell);
-        
-        body.appendChild(row);
-    });
 
-    return body
-}
 
 
 // home ------------------
@@ -519,11 +535,32 @@ class CensorshipTargetsTable extends HTMLElement{
     createTable(){
         this.innerHTML=""
         let table = document.createElement("table")
-        let header = createHeader()
+        let header = this.createHeader()
         let body =  this.createBodies()
         table.appendChild(header)
         table.appendChild(body)
         this.appendChild(table);
+    }
+
+    createHeader(){
+        let header = document.createElement("thead")
+        let tr = document.createElement("tr")
+        let th1 = document.createElement("th")
+        let th2 = document.createElement("th")
+        th1.textContent = "キー"
+        th1.style.whiteSpace="nowrap"
+        th1.style.textAlign="center"
+        th1.style.backgroundColor="#008080"
+        th2.style.backgroundColor="#008080"
+        
+        th1.style.color="white"
+        th2.style.color="white"
+    
+        th2.textContent = "各要素の検閲対象文字"
+        tr.appendChild(th1);
+        tr.appendChild(th2);
+        header.appendChild(tr)
+        return header
     }
 
     createBodies(){
@@ -536,8 +573,8 @@ class CensorshipTargetsTable extends HTMLElement{
             const row = document.createElement("tr");
             const keyCell = document.createElement("td");
             keyCell.textContent = key;
+            keyCell.style.textAlign="center"
             row.appendChild(keyCell);
-            
             const valueCell = document.createElement("td");
             valueCell.textContent = characters.join(", "); 
             row.appendChild(valueCell);
@@ -549,16 +586,19 @@ class CensorshipTargetsTable extends HTMLElement{
     }
 }
 
+class RegisteredCharactersByKey extends HTMLElement{
+    connectedCallback() {
+        updateList(getRegisterKeys()[0])
+    }
+}
 
-class MyNotice extends HTMLElement{
+class  MyNotice extends HTMLElement{
     constructor(){
         super();
         const noticeMessage = [
-            "ご不明な点がございましたら、「お問い合わせ」ページよりご連絡ください。",
             "※ 当サイトの内容は、可能な限り他者を尊重し、公正であり続けることを心掛けています。",
-            "※ しかし、完璧ではないため、万が一、意図しない不利益や誤解を招くような表現があった場合には、お知らせいただけると幸いです。",
+            "※ 万が一、意図しない不利益や誤解を招くような表現があった場合には、お知らせいただけると幸いです。",
             "※ 皆様にとって有益で、快適に利用いただけるサイト作りを目指しています。",
-            "制作者のデザインセンスは空なのでデザインしてくれる方いればとても心強いです"
         ]
         
         noticeMessage.forEach((message) => {
@@ -570,8 +610,8 @@ class MyNotice extends HTMLElement{
 }
 
 customElements.define("censorship-targets-table", CensorshipTargetsTable);
+customElements.define("registered-characters-by-key", RegisteredCharactersByKey);
 customElements.define("my-notice", MyNotice);
-
 
 // id: 文字列取得対象
 // target: 書き出し対象
@@ -597,52 +637,30 @@ function execCensorship(id,displayTarget,registeredTarget){
 function createCensoredTextBox(generatedTexts,target){
     var displayTarget = document.getElementById(target);
     displayTarget.innerHTML = "";
+    displayTarget.style.border="1px solid lightgray";
+    displayTarget.style.display= "inline-block";
     
-    const templateRow = createGridRow()
-    const templateCell = createGridCell()
-    
-    generatedTexts.forEach((texts)=>{
-        const row = templateRow.cloneNode(true);
-        texts.forEach((text)=>{
-            const cell = templateCell.cloneNode(true);
-            cell.textContent = text.character
-            bgColor = getRegisterKeyBackGroundColorCode(text.beamPartKey)
+    let body = document.createElement("tbody")
+    generatedTexts.forEach((texts) => {
+        const row = document.createElement("tr");
+        texts.forEach((t)=>{
+            const cell = document.createElement("td");
+            cell.style.border = "1px solid lightgray";
+            cell.style.textAlign="center"
+            cell.textContent = t.character
+            bgColor = getRegisterKeyBackGroundColorCode(t.beamPartKey)
             if (bgColor != "#FFFFFF"){
                 cell.style.color = "#FFFFFF";
                 cell.style.fontWeight = "bold";
                 cell.style.borderColor = "#000000";
-            
             }
-            
             cell.style.backgroundColor = bgColor
             row.appendChild(cell)
         })
-        displayTarget.appendChild(row)
-    })
-}
-
-function createGridRow(){
-    var ret = document.createElement('div');
-    ret.style.display = 'flex';
-    ret.style.border = '1px solid lightgray';
-    ret.style.minHeight = '40px';
-
-    return ret
-}
-
-function createGridCell(){
-    var ret = document.createElement('div');
-    ret.style.display = 'flex';
-    ret.style.justifyContent = 'center';
-    ret.style.alignItems = 'center';
-    ret.style.border = '1px solid lightgray';
-    ret.style.fontSize = '1rem';
-    ret.style.minHeight = '40px';
-    ret.style.minWidth = '40px';
-    ret.style.boxSizing = 'border-box';
-    ret.textContent = ""
-
-    return ret
+        
+        body.appendChild(row)
+    });
+    displayTarget.appendChild(body)
 }
 
 function updateTargetTable(){

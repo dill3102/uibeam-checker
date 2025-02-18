@@ -1,17 +1,17 @@
+
 <div style="height: 100%;">
-<h2>ういびーむ検閲を試す</h2>
+    <h2 style="color: black; font:bold;">ういびーむ検閲を試す</h2>
+    <p style="font-weight: bold; text-align: left; margin-bottom: -2px;">検閲対象文字(サンプルのみ)</p>
+    <div  style="width:95%; margin-bottom: 10px;">
+        <censorship-targets-table data-target="Sample"></censorship-targets-table>
+    </div>
 
-<li>検閲対象文字(サンプルのみ)</li>
-<censorship-targets-table data-target="Sample"></censorship-targets-table>
-
-
-
-<label for="inputField">入力欄 </label>
-<textarea 
-    rows="10" 
-    cols="100"
-    id="SampleTextInputField"
-    placeholder=
+    <p style="font-weight: bold; text-align: left; margin-bottom: -2px;">検閲する文章を入力</p>
+    <textarea 
+        id="SampleTextInputField"
+        style="padding:10px; width: 95%; margin-bottom: 10px; border-radius: 5px;"
+        rows="10"
+        placeholder=
 'うちの娘がうい先生のファンで
 いつもかじりついて配信をみていますw
 
@@ -19,14 +19,14 @@
 1番かわいくできた と持って帰って飾ってます。
 
 娘は本当は居ません'
-></textarea>
-
-<button id="submitButton" onclick='execCensorship("SampleTextInputField","home-censored-grid","Sample");'>検閲を実施</button>
-
-<p >検閲結果</p>
-<div 
-    id="home-censored-grid"
-    ></div>
+    ></textarea>
+    <button 
+        id="submitButton"
+        class="executeButton"
+        onclick='execCensorship("SampleTextInputField","home-censored-grid","Sample");'
+        style = "margin-bottom: 10px;"
+    >検閲を実施</button>
+    <div style="max-width: 95%; overflow-x: auto;"> 
+        <div id="home-censored-grid"></div>
+    </div>
 </div>
-
-
