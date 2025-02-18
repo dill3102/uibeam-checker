@@ -17,9 +17,13 @@
 <button id="submitButton" onclick="removeRegisteredCharacterAll(); setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化</button>
 
 <button id="submitButton" onclick="removeRegisteredCharacterAll(); setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化(ガチ)</button>
+<div class="bar" style="height:2px; margin-top: 5px;"></div>
 
 <h3>登録された文字一覧:</h3>
-<ul id="CharacterList"></ul>
+<registered-characters-by-key id="CharacterList"></registered-characters-by-key>
+<div class="bar" style="height:2px; margin-top: 5px;"></div>
 
-<h3>検閲対象の文字群</h3>
-<censorship-targets-table id="registration-taget-table" data-target="Registered"></censorship-targets-table>
+<h3>検閲対象の文字一覧</h3>
+<div  style="width:95%; margin-bottom: 10px;">
+    <censorship-targets-table id="registration-taget-table" data-target="Registered"></censorship-targets-table>
+</div>

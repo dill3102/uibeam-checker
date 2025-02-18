@@ -1,11 +1,11 @@
 <h2>検閲をおこなう</h2>
-<!-- 検閲文章入力 -->
-<p>入力欄</p>
-<textarea 
-    rows="10" 
-    cols="100"
-    id="CensorshipTextInputField"
-    placeholder=
+<div style="display: flex; flex-direction: column;">
+    <p style="font-weight: bold; text-align: left; margin-bottom: -2px;">検閲する文章を入力</p>
+    <textarea 
+        rows="10" 
+        cols="100"
+        id="CensorshipTextInputField"
+        placeholder=
 'うちの娘がうい先生のファンで
 いつもかじりついて配信をみていますw
 
@@ -14,12 +14,18 @@
 
 娘は本当は居ません'
 ></textarea>
+    <button 
+        id="submitButton"
+        class="executeButton"
+        style="margin-top:10px;"
+        onclick='execCensorship("CensorshipTextInputField","censorship-censored-grid","Registered");'
+        >検閲を実施</button>
 
-<button id="submitButton" onclick='execCensorship("CensorshipTextInputField","censorship-censored-grid","Registered");'>検閲を実施</button>
+    <h3>検閲結果</h3>
+    <div style="max-width: 95%; overflow-x: auto;"> 
+        <div id="censorship-censored-grid"></div>
+    </div>
 
-<h3>検閲結果</h3>
- <div id="censorship-censored-grid"></div>
-
-<h3>検閲対象の文字群</h3>
-<censorship-targets-table data-target="Registered"></censorship-targets-table>
-
+    <h3>検閲対象の文字群</h3>
+    <censorship-targets-table data-target="Registered"></censorship-targets-table>
+</div>
