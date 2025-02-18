@@ -1,29 +1,41 @@
+<h1 style="text-align: center;">検閲対象文字登録</h1>
+<div class="bar"></div>
 
-<h2>検閲対象文字登録</h2>
+<div style="width: 90%; display: flex;  flex-direction: column; margin-right: 2.5%; margin-left: 2.5%;">
+    <p style="font-weight: bold; font-size: large; ">それぞれの文字に検閲する文字を追加する</p>
+    <div class="tabs">
+        <div class="tab active" onclick="changeRegisterTab(0)">う</div>
+        <div class="tab" onclick="changeRegisterTab(1)">い</div>
+        <div class="tab" onclick="changeRegisterTab(2)">び</div>
+        <div class="tab" onclick="changeRegisterTab(3)">ー</div>
+        <div class="tab" onclick="changeRegisterTab(4)">む</div>
+    </div>
+    <div style="border: 1px solid lightgray; display: flex; flex-direction: column; height: 40vh;">
+        <div style="margin-left:auto; width:100%; display: flex; justify-content: start; text-align: center; align-items:center; padding-top:10px; padding-bottom:10px;"> 
+            <span style="text-align: start; padding-left: 10px; font-weight: bold; font-size: large;">登録された文字一覧:</span>
+            <div style="margin-left:auto; margin-right: 20px; width: 60%; display:flex; flex-direction: row;">
+                <input type="text" style="margin: auto;" id="inputField" maxlength="1" placeholder="入力欄 (1文字まで)"/>
+                <button id="submitButton" class="executeButton" style="width: 25%;" onclick="SubmitButton();">登録</button>
+            </div>
+        </div>
+        <div style="display:flex; width:100%; justify-content: center;">
+            <div class="bar" style="width:98%"></div>
+        </div>
 
-<button onclick="SetNowRegisterKey('う'); debugTargetCharacters(); updateList(getNowRegisterKey())">う</button>
-<button onclick="SetNowRegisterKey('い'); debugTargetCharacters(); updateList(getNowRegisterKey())">い</button>
-<button onclick="SetNowRegisterKey('び'); debugTargetCharacters(); updateList(getNowRegisterKey())">び</button>
-<button onclick="SetNowRegisterKey('ー'); debugTargetCharacters(); updateList(getNowRegisterKey())">ー</button>
-<button onclick="SetNowRegisterKey('む'); debugTargetCharacters(); updateList(getNowRegisterKey())">む</button>
+        <registered-characters-by-key id="CharacterList"></registered-characters-by-key>
+    </div>
+</div>
+
+<div class="bar" style="margin-top: 15px;"></div>
 
 
-<label for="inputField">入力欄 (1文字まで):</label>
-<input type="text" id="inputField" maxlength="1" />
-<button id="submitButton" onclick="SubmitButton();updateList(getNowRegisterKey());updateTargetTable();">登録</button>
-
-<button id="submitButton" onclick="removeRegisteredCharacterAll();updateList(getNowRegisterKey());updateTargetTable();">全消去</button>
-
-<button id="submitButton" onclick="removeRegisteredCharacterAll(); setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化</button>
-
-<button id="submitButton" onclick="removeRegisteredCharacterAll(); setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化(ガチ)</button>
-<div class="bar" style="height:2px; margin-top: 5px;"></div>
-
-<h3>登録された文字一覧:</h3>
-<registered-characters-by-key id="CharacterList"></registered-characters-by-key>
-<div class="bar" style="height:2px; margin-top: 5px;"></div>
-
-<h3>検閲対象の文字一覧</h3>
-<div  style="width:95%; margin-bottom: 10px;">
+<p style="font-weight: bold; font-size: large; margin-bottom: -2px;">検閲対象の文字一覧</p>
+<div  style="width:90%; margin-bottom: 10px; margin-right: 2.5%; margin-left: 2.5%;">
     <censorship-targets-table id="registration-taget-table" data-target="Registered"></censorship-targets-table>
+</div>
+
+<div style="display: flex; width: 90%; height: auto; align-items: center; justify-content: center; margin-top: 10px;">
+    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick="removeRegisteredCharacterAll();updateList(getNowRegisterKey());updateTargetTable();">全消去</button>
+    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick="removeRegisteredCharacterAll(); setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化</button>
+    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick="removeRegisteredCharacterAll(); setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化(ガチ)</button>
 </div>

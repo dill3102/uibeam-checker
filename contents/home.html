@@ -1,32 +1,26 @@
 
-<div style="height: 100%;">
-    <h2 style="color: black; font:bold;">ういびーむ検閲を試す</h2>
-    <p style="font-weight: bold; text-align: left; margin-bottom: -2px;">検閲対象文字(サンプルのみ)</p>
-    <div  style="width:95%; margin-bottom: 10px;">
-        <censorship-targets-table data-target="Sample"></censorship-targets-table>
-    </div>
+<h1 style="text-align: center;">ういびーむ検閲を試す</h1>
+<div class="bar"></div>
+<p style="font-weight: bold; text-align: left; margin-bottom: -2px;">検閲対象文字(サンプルのみ)</p>
+<div  style="width:95%; margin-bottom: 10px;">
+    <censorship-targets-table data-target="Sample"></censorship-targets-table>
+</div>
 
-    <p style="font-weight: bold; text-align: left; margin-bottom: -2px;">検閲する文章を入力</p>
-    <textarea 
-        id="SampleTextInputField"
-        style="padding:10px; width: 95%; margin-bottom: 10px; border-radius: 5px;"
-        rows="10"
-        placeholder=
-'うちの娘がうい先生のファンで
-いつもかじりついて配信をみていますw
-
-美術の授業でもうい先生の絵を描いて
-1番かわいくできた と持って帰って飾ってます。
-
-娘は本当は居ません'
-    ></textarea>
+<p style="font-weight: bold; text-align: left; margin-bottom: -2px;">検閲する文章を入力</p>
+<textarea 
+    id="SampleTextInputField"
+    style="padding:10px; width: 95%; margin-bottom: 10px; border-radius: 5px; box-sizing: border-box;"
+    rows="10"
+></textarea>
+<div style="display: flex; width: 95%; height: auto; align-items: center; justify-content: center; margin-top: 10px;">
     <button 
         id="submitButton"
         class="executeButton"
         onclick='execCensorship("SampleTextInputField","home-censored-grid","Sample");'
         style = "margin-bottom: 10px;"
     >検閲を実施</button>
-    <div style="max-width: 95%; overflow-x: auto;"> 
-        <div id="home-censored-grid"></div>
-    </div>
+</div>
+
+<div style="max-width: 95%; overflow-x: auto;"> 
+    <div id="home-censored-grid"></div>
 </div>

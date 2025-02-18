@@ -1,33 +1,30 @@
 :root{
-    /* todo 変数名更新 */
-    --main-blown-color-0: #000;
-    --main-blown-color-0: #fff;
-    --main-blown-color-1: #ecf6fb;
-    --main-blown-color-2: #008080; /* メニュー */
-    --main-blown-color-3: #006666 ; /* メニュー ホバー 00a3a3, 006666 */
+    --main-bg-color-1: #ecf6fb;
+    --main-color-1: #008080;
+    --main-color-2: #006666;
 }
 
 body {
     margin: 0;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 20%;
+    margin-right: 20%;
     display: grid;
     grid-template-columns: 200px 1fr;
     height: 100vh;
-    width: 70vw;
-    background-color: var(--main-blown-color-1);
+    width: 60vw;
+    background-color: var(--main-bg-color-1);
     background-image: url('./sample_images/background_roop.png');
     background-repeat: repeat;
 }
 
 nav {
-    background-color:var(--main-blown-color-2);
+    background-color:var(--main-color-1);
     color: white;
     padding: 20px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    outline: 2px solid var(--main-blown-color-0);
+    outline: 2px solid white;
 }
 
 nav .padding-box{
@@ -52,15 +49,15 @@ nav a {
 }
 
 nav a:hover {
-    background: var(--main-blown-color-3);
+    background: var(--main-color-2);
     scale: 110%;
 }
 
 main {
     overflow-y: auto;
     padding: 20px;
-    background-color: var(--main-blown-color-0);
-    outline: 2px solid var(--main-blown-color-0);
+    background-color: white;
+    outline: 2px solid white;
 }
 
 table {
@@ -79,39 +76,55 @@ th {
     background-color: #f2f2f2;
 }
 
-.round-box {
-    width: auto;
-    height: auto;
-    border: 5px solid var(--main-blown-color-0);
-    border-radius: 15px;
-    outline: 3px solid var(--main-blown-color-0);
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align:start;
-    background-color: var(--main-blown-color-0);
-}
-
 .bar {
-    background-color: var(--main-blown-color-2);
-    height: 3px;
+    background-color: var(--main-color-1);
+    height: 2px;
     width: 95%;
 }
 
-
 .executeButton {
-    background-color: var(--main-blown-color-2);
+    background-color: var(--main-color-1);
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: large;
+    text-wrap: nowrap;
 }
 
 .executeButton:hover{
-    background-color: var(--main-blown-color-2);
+    background-color: var(--main-color-1);
     transform: scale(1.1); 
-    box-shadow: 2px 2px 5px var(--main-blown-color-2);
+    box-shadow: 2px 2px 5px var(--main-color-1);
+}
+
+.tabs {
+    display: flex;
+}
+
+.tab {
+    background: #00A0A0;
+    padding: 5px 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-bottom: none;
+    color:white;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    scale: 90%;
+    transform-origin: bottom;
+}
+
+.tab.active {
+    background: var(--main-bg-color-1);
+    font-weight: bold;
+    padding: 5px 20px;
+    cursor: default;
+    pointer-events: none;
+    color:black;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    scale: 110%;
+    transform-origin: bottom;
 }
