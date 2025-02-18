@@ -1,5 +1,3 @@
-
-
 // --------------------------------------------
 // ファイル読み込み関連
 // --------------------------------------------
@@ -15,18 +13,40 @@ function loadContent(page) {
         .then(response => response.text())
         .then(html => {
             document.getElementById('content').innerHTML = html;
+            switch (page){
+                case "home":
+                    HomeInit()
+                    break
+                case "censorship":
+                    CensorshipInit()
+                    break
+            }
         })
         .catch(error => console.error('コンテンツの読み込みに失敗しました:', error));
 }
 
 // 初回ページ表示（デフォルト: ホーム）
 document.addEventListener("DOMContentLoaded", () => {
+    console.log ("DOMContentLoaded path name:",window.location.pathname )
+    if (window.location.pathname !== "/") {
+        window.location.href = "/";
+    }
+
     if (isRegisteredNull()){
         setSampleTargets()
     }
-    
+    GetDayRandom(1,2);
     loadContent('home');    
+    // HomeInit()
 });
+
+function HomeInit(){
+    SetPlaceHolder("SampleTextInputField");
+}
+
+function CensorshipInit(){
+    SetPlaceHolder("CensorshipTextInputField");
+}
 
 
 // --------------------------------------------
@@ -72,8 +92,6 @@ function setTargetCharacterList(key, list){
     targetCharacters.set(key,list)
     SetLocalStorage(targetCharacters)
 }
-
-
 
 function getTargetCharacters(key, target){
     if (!isRegisterKey(key)){
@@ -205,9 +223,11 @@ function SubmitButton(){
         addTargetCharacter(getNowRegisterKey(),inputValue) 
         inputField.value = ''; // 入力欄をクリア
     } else {
-        // そもここを通らなくするために押せなくするなどを実施
-        alert('入力欄が空です');
+        return
     }
+    
+    updateList(getNowRegisterKey());
+    updateTargetTable();
 }
 
 // 一覧表示用
@@ -217,6 +237,7 @@ const HtmlKeyTargetTable = "registration-taget-table"
 function updateList(key) {
     const charList = document.getElementById(HtmlKeyCharacterList);
     charList.innerHTML = ''; // 既存のリストをクリア
+    charList.style.overflowY="auto";
     
     var list = getTargetCharacters(key)
     if(list.length==0){
@@ -305,7 +326,7 @@ function getSeriousTarget(key){
 
     switch(key){
         case key_u: return [ 
-            "u","U","う","ウ","ｳ","ヴ","ｳﾞ",
+            "u","U","う","ウ","ｳ","ヴ","ｳﾞ","ぅ","ゥ","ｩ",
             "生","植","得","浮","受","打","売","埋","憂","請",
             "右","雨","羽","宇","有","卯","迂","烏","禹","芋",
             "初","飢","魚","牛","失","渦","嘘","歌","謡","内",
@@ -313,7 +334,7 @@ function getSeriousTarget(key){
             "潤","運","雲",
         ]
         case key_i: return [
-            "i","I","い","イ","ｲ",
+            "i","I","い","イ","ｲ","ぃ","ィ","ｨ",
             "伊","衣","戌","異","井","出","居","違","逸","糸",
             "往","行","射","入","要","言","生","位","胃","尉",
             "依","囲","易","医","威","為","委","石","市","ゐ",
@@ -331,7 +352,7 @@ function getSeriousTarget(key){
             "m","M","む","ム","ﾑ",
             "無","務","夢","武","霧","牟","鞴","陸","睦","剥",
             "群","向","視","未","有","虫","蒸","六","胸","村",
-            "昔","仏","娘"
+            "昔","仏","娘","厶"
         ]
         default: return []
     }
@@ -342,17 +363,12 @@ function getRegisterKeyBackGroundColorCode(key){
         return "#FFFFFF"
     }
 
-
-    // todo fix
-    //var color = getMonotoneBlack(genRegisterNumber(key))
-    //return color
-
     switch(key){
-        case key_u:     return "#FF0000"
-        case key_i:     return "#0000FF"
-        case key_bi:    return "#FFFF00"
-        case key_bar:   return "#008000"
-        case key_mu:    return "#FFA500"
+        case key_u:     return "#3DC4FF"
+        case key_i:     return "#00B8EE"
+        case key_bi:    return "#00B1E7"
+        case key_bar:   return "#00A3E0"
+        case key_mu:    return "#0095D9"
         default:        return "#FFFFFF"
     }
 }
@@ -404,7 +420,6 @@ class BeamCtrl {
                 this.textData[i].push(new BeamPart(""," "))
             }
         }
-        
     }
 
     // BeamCtrl準備
@@ -492,28 +507,6 @@ class BeamCtrl {
 // 各コンテンツ用
 // --------------------------------------------
 
-function createHeader() {
-    let header = document.createElement("thead")
-    let tr = document.createElement("tr")
-    let th1 = document.createElement("th")
-    let th2 = document.createElement("th")
-    th1.textContent = "キー"
-    th1.style.whiteSpace="nowrap"
-    th1.style.textAlign="center"
-    th1.style.backgroundColor="#008080"
-    th2.style.backgroundColor="#008080"
-    th1.style.color="white"
-    th2.style.color="white"
-
-    th2.textContent = "各要素の検閲対象文字"
-    tr.appendChild(th1);
-    tr.appendChild(th2);
-    header.appendChild(tr)
-    return header
-}
-
-
-
 
 // home ------------------
 
@@ -556,6 +549,7 @@ class CensorshipTargetsTable extends HTMLElement{
         th1.style.color="white"
         th2.style.color="white"
     
+        th2.style.textAlign="center"
         th2.textContent = "各要素の検閲対象文字"
         tr.appendChild(th1);
         tr.appendChild(th2);
@@ -652,7 +646,7 @@ function createCensoredTextBox(generatedTexts,target){
             if (bgColor != "#FFFFFF"){
                 cell.style.color = "#FFFFFF";
                 cell.style.fontWeight = "bold";
-                cell.style.borderColor = "#000000";
+                cell.style.borderColor = "#000000";   
             }
             cell.style.backgroundColor = bgColor
             row.appendChild(cell)
@@ -668,4 +662,46 @@ function updateTargetTable(){
     if (!isFalsy(targetTable)){
         targetTable.createTable()
     }
+}
+
+//  min ~ max(含む)までの乱数を日付で生成
+function GetDayRandom(min,max){
+    max++
+    const date = new Date("2025-02-18T12:00:00Z");
+    const unixTime = Math.floor(date.getTime() / 1000);
+    const res = min + (unixTime % (max-min));
+    return res
+}
+
+const UiBeamSampleTexts = [
+    'うちの娘がうい先生のファンで\nいつもかじりついて配信をみていますw\n\n美術の授業でもうい先生の絵を描いて\n1番かわいくできた と持って帰って飾ってます。\n\n娘は本当は居ません',
+]
+
+function GetUiBeamSamples(id){
+    if (UiBeamSampleTexts.length < id ){
+        return ""
+    }
+    return UiBeamSampleTexts[id]
+}
+
+function SetPlaceHolder(id){
+    let textArea = document.getElementById(id)
+    if (isFalsy(textArea)){
+        console.log(" SetPlaceHolder none id : ", id)
+        return
+    }
+    textArea.placeholder = GetUiBeamSamples(GetDayRandom(0,UiBeamSampleTexts.length))
+}
+
+function changeRegisterTab(index) {
+    const tabs = document.querySelectorAll(".tab");
+    const key = getRegisterKeys()[index]
+
+    SetNowRegisterKey(key); 
+    debugTargetCharacters();
+    updateList(key)
+    
+    tabs.forEach((tab, i) => {
+        tab.classList.toggle("active", i === index);
+    });
 }
