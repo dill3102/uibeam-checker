@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ういびーむチェッカー</title>
+    <title>ういビームチェッカー</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/sample_images/favicon.png" type="image/png">
+    <meta property="og:title" content="ういビームチェッカー">
+    <meta property="og:description" content="ういビームの検閲を実施します！">
+    <meta property="og:image" content="https://uibeamchecker.com/og-image.png">
+    <meta property="og:url" content="https://uibeamchecker.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ういビームチェッカー">
 </head>
 <body>
     <nav>
         <div class="padding-box"></div>
         <div class="box">
-            <a href="?content=home" onclick="loadContent('home')">ホーム</a>
+            <a href="/" onclick="loadContent('home')">ホーム</a>
             <a href="?content=registration" onclick="loadContent('registration')">検閲対象文字登録</a>
             <a href="?content=censorship" onclick="loadContent('censorship')">検閲を実施</a>
             <a href="?content=usage" onclick="loadContent('usage')">使い方</a>
@@ -19,16 +26,18 @@
         </div>
     </nav>
     <main>
-        <div class="main-container">
+        <div>
             <div class="title">
-                <a href="?content=home" onclick="loadContent('home')">
+                <a href="/" onclick="loadContent('home')">
                     <img src="sample_images/title.png" alt="タイトルロゴ" class="logo">
                 </a>
             </div>
              <div id="content"></div>
+             <div id="modal-target"></div>
         </div>
     </main>
-
+    
     <script src="script.js" defer></script>
+
 </body>
 </html>
