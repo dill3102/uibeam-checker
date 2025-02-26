@@ -27,7 +27,6 @@ function loadContent(page) {
 
 // 初回ページ表示（デフォルト: ホーム）
 document.addEventListener("DOMContentLoaded", () => {
-    console.log ("DOMContentLoaded path name:",window.location.pathname )
     if (window.location.pathname !== "/") {
         window.location.href = "/";
     }
@@ -37,11 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     GetDayRandom(1,2);
     loadContent('home');    
-    // HomeInit()
 });
 
 function HomeInit(){
+    OnlyOnceAnimateBeam("beam-on-first-time")
     SetPlaceHolder("SampleTextInputField");
+
 }
 
 function CensorshipInit(){
@@ -233,6 +233,7 @@ function SubmitButton(){
 // 一覧表示用
 const HtmlKeyCharacterList = "CharacterList"
 const HtmlKeyTargetTable = "registration-taget-table"
+const HtmlKeyModalTarget = "modal-target"
 
 function updateList(key) {
     const charList = document.getElementById(HtmlKeyCharacterList);
@@ -331,7 +332,7 @@ function getSeriousTarget(key){
             "右","雨","羽","宇","有","卯","迂","烏","禹","芋",
             "初","飢","魚","牛","失","渦","嘘","歌","謡","内",
             "撃","移","映","独","馬","旨","海","産","裏","浦",
-            "潤","運","雲",
+            "潤","運","雲","噂",
         ]
         case key_i: return [
             "i","I","い","イ","ｲ","ぃ","ィ","ｨ",
@@ -347,11 +348,11 @@ function getSeriousTarget(key){
             "理","薇","便","櫃","火","氷","引","彼","悲","緋",
             "響","秘","妃","日","品","人","平","病","秒",
         ]
-        case key_bar: return [ "ー", "-", "−", "—", "–", "＿", "˗", "﹣", "⎯", "⏤", "─", "━", "―", "￣", "∼", "∸", "l","I","｜","ⅼ","Ⅰ","＿","1","１","一","/","(",")"]
+        case key_bar: return [ "ー", "-", "−", "—", "–", "＿", "˗", "﹣", "⎯", "⏤", "─", "━", "―", "￣", "∼", "∸", "l","I","｜","ⅼ","Ⅰ","＿","1","１","一","/","(",")","（","）"]
         case key_mu: return [
             "m","M","む","ム","ﾑ",
             "無","務","夢","武","霧","牟","鞴","陸","睦","剥",
-            "群","向","視","未","有","虫","蒸","六","胸","村",
+            "群","向","視","未","虫","蒸","六","胸","村",
             "昔","仏","娘","厶"
         ]
         default: return []
@@ -620,10 +621,13 @@ function execCensorship(id,displayTarget,registeredTarget){
         inputValue = inputField.placeholder;
     }
 
+    let text = ""
     inputValue = inputValue.trim()
-
+    inputValue.split(" ").forEach((t)=>{
+         text = text+t
+    })
     
-    const ctrl = new BeamCtrl(inputValue,registeredTarget)
+    const ctrl = new BeamCtrl(text,registeredTarget)
     const generatedTexts = ctrl.getCensorship()
     createCensoredTextBox(generatedTexts,displayTarget)
 }
@@ -668,13 +672,19 @@ function updateTargetTable(){
 function GetDayRandom(min,max){
     max++
     const date = new Date("2025-02-18T12:00:00Z");
-    const unixTime = Math.floor(date.getTime() / 1000);
+    const unixTime = Math.floor((date.getTime()+(60*60*24+1)) / 1000);
     const res = min + (unixTime % (max-min));
     return res
 }
 
 const UiBeamSampleTexts = [
     'うちの娘がうい先生のファンで\nいつもかじりついて配信をみていますw\n\n美術の授業でもうい先生の絵を描いて\n1番かわいくできた と持って帰って飾ってます。\n\n娘は本当は居ません',
+    'うい先生に質問です絵を描き始めるのに\nいち万円でいたタブを譲ってもらったのですが\nびみょうに古いです\nいまからでも新型を買ったほうがいいですか？\nむだにならない値段も教えてほしいです',
+    'うい先生こんばんわ！\nイラストを書く時、裸体を書かない派どちらですか？\n美大生の人は「みんな裸体から書いている」なんて\nいっていました。\nむっつりとかそういうのではないです。',
+    'うに食べたい\nこいも食べたい\n甘エビもいいな\nアルコールと一緒に\n海鮮系のムニエルで',
+    '今頃ういはクソマロ集めで忙しいだろうなぁ。\nあーいつも大変そうだなぁ。\n誰か美少年のお手伝いさんが居れば。。。\nピコーン\nムキムキマッチョメンの僕が行きますよ',
+    'こういう機会がないと聞けないので！！！\nよいチャンスかなと思い質問させて下さい！\nビビッと浮かんだ質問が一つだけですが！！！\nいいかなーとお二人の！！！！！！！！！\nむむむねのサイズをお聞きしても良いですか！',
+    '噂のイラストレーター件Vtuber「しぐれう\nい」がローソンに登場！本人描きおろしの\n美麗イラストを使用したオリジナルグッズや、\nいつもは見られない（？）からあげクンになりきる\nむちゃかわな姿もお披露目♪'
 ]
 
 function GetUiBeamSamples(id){
@@ -682,6 +692,20 @@ function GetUiBeamSamples(id){
         return ""
     }
     return UiBeamSampleTexts[id]
+}
+
+function OnlyOnceAnimateBeam(id){
+    let item = document.getElementById(id)
+    if (isFalsy(item)){
+        return
+    }
+    
+    if (sessionStorage.getItem(id+"-animationPlayed")) {
+        item.innerHTML="";
+        return
+    } 
+    
+    setTimeout(() => {sessionStorage.setItem(id+"-animationPlayed", "true");}, 1000);
 }
 
 function SetPlaceHolder(id){
@@ -704,4 +728,81 @@ function changeRegisterTab(index) {
     tabs.forEach((tab, i) => {
         tab.classList.toggle("active", i === index);
     });
+}
+
+function openUserDecidedModal( message, func){
+    const bg = document.createElement("div");
+    bg.style.position = "fixed";
+    bg.style.display="flex";
+    bg.style.top = 0;
+    bg.style.left = 0;
+    bg.style.width = "100%";
+    bg.style.height = "100%";
+    bg.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    bg.style.justifyContent = "center";
+    bg.style.alignItems = "center";
+
+    const content = document.createElement("div");
+    content.style.backgroundColor = "white";
+    content.style.textAlign = "center";
+    content.style.borderRadius = "8px";
+    content.style.padding = "20px";
+    content.style.width = "400px";
+    content.style.width = "400px";
+
+    const text = document.createElement("div");
+    text.textContent = message
+    const close = document.createElement("button");
+    close.innerHTML = "&times;";
+    close.style.position= "absolute";
+    close.style.top= "10px";
+    close.style.right= "10px";
+    close.style.fontSize= "20px";
+    close.style.cursor= "pointer";
+
+    const buttons = document.createElement("div");
+    buttons.style.display = "flex";
+    buttons.style.flexDirection = "row";
+    buttons.width = "100%";
+    buttons.style.margin = "3%";
+
+    const yesButton = document.createElement("button");
+    const noButton = document.createElement("button");
+    yesButton.style.margin="auto"
+    noButton.style.margin="auto"
+    yesButton.style.width = "25%";
+    noButton.style.width = "25%";
+
+    yesButton.classList.add("executeButton");
+    noButton.classList.add("executeButton");
+
+    close.onclick = function tmp(){closeFunc()}
+    yesButton.onclick = function tmp(){func();closeFunc()}
+    noButton.onclick = function tmp(){noFunc()}
+
+    
+    yesButton.textContent = "Yes"
+    noButton.textContent = "No"
+
+    buttons.appendChild(noButton)
+    buttons.appendChild(yesButton)
+
+    content.appendChild(text)
+    content.appendChild(close)
+    content.appendChild(buttons)
+    bg.appendChild(content);
+    
+    document.getElementById(HtmlKeyModalTarget).appendChild(bg)
+}
+
+function successFunc(){
+    closeFunc();
+}
+
+function closeFunc(){
+    document.getElementById(HtmlKeyModalTarget).innerHTML = ""
+}
+
+function noFunc(){
+    closeFunc()
 }

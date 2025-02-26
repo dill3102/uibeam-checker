@@ -35,7 +35,7 @@
 </div>
 
 <div style="display: flex; width: 90%; height: auto; align-items: center; justify-content: center; margin-top: 10px;">
-    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick="removeRegisteredCharacterAll();updateList(getNowRegisterKey());updateTargetTable();">全消去</button>
-    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick="removeRegisteredCharacterAll(); setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化</button>
-    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick="removeRegisteredCharacterAll(); setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();">初期化(ガチ)</button>
+    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick='openUserDecidedModal("全消去しますか",function tmp(){removeRegisteredCharacterAll();updateList(getNowRegisterKey());updateTargetTable();})'>全消去</button>
+    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick='openUserDecidedModal("初期化しますか",function tmp(){setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();})'>初期化</button>
+    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick='openUserDecidedModal("初期化（ガチ）しますか",function tmp(){setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();})'>初期化（ガチ）</button>
 </div>
