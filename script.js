@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isRegisteredNull()){
         setSampleTargets()
     }
-    GetDayRandom(1,2);
     loadContent('home');    
 });
 
@@ -307,7 +306,7 @@ function getSampleTarget(key){
     }
 
     switch(key){
-        case key_u: return [ 'う', 'ウ', '宇' ]
+        case key_u: return [ 'う', 'ウ', '宇' ,'噂']
         case key_i: return [ 'い', 'イ', '伊' ]
         case key_bi: return [ 'び', 'ビ', '美' ]
         case key_bar: return [ 'ー', '｜','1', '１',]
@@ -432,7 +431,6 @@ class BeamCtrl {
             if (t == ""){ return }
             if (t.length > this.maxRowLength){
                 this.maxRowLength = t.length
-                console.log(t, "length:",this.maxRowLength)
             }
             this.textData.push(this.checkIsUiBeamText(t,registeredTarget))
         })
@@ -546,7 +544,7 @@ class CensorshipTargetsTable extends HTMLElement{
         th1.style.textAlign="center"
         th1.style.backgroundColor="#008080"
         th2.style.backgroundColor="#008080"
-        
+
         th1.style.color="white"
         th2.style.color="white"
     
@@ -599,6 +597,9 @@ class  MyNotice extends HTMLElement{
         noticeMessage.forEach((message) => {
             let p = document.createElement("p")
             p.textContent = message
+            p.style.maxWidth="90%"
+            p.style.marginLeft= "auto"
+            p.style.marginRight= "auto"
             this.appendChild(p);
         });      
     }
@@ -672,7 +673,7 @@ function updateTargetTable(){
 function GetDayRandom(min,max){
     max++
     const date = new Date("2025-02-18T12:00:00Z");
-    const unixTime = Math.floor((date.getTime()+(60*60*24+1)) / 1000);
+    const unixTime = Math.floor((date.getTime()) / 1000);
     const res = min + (unixTime % (max-min));
     return res
 }
@@ -688,7 +689,7 @@ const UiBeamSampleTexts = [
 ]
 
 function GetUiBeamSamples(id){
-    if (UiBeamSampleTexts.length < id ){
+    if (UiBeamSampleTexts.length <= id ){
         return ""
     }
     return UiBeamSampleTexts[id]
@@ -711,7 +712,6 @@ function OnlyOnceAnimateBeam(id){
 function SetPlaceHolder(id){
     let textArea = document.getElementById(id)
     if (isFalsy(textArea)){
-        console.log(" SetPlaceHolder none id : ", id)
         return
     }
     textArea.placeholder = GetUiBeamSamples(GetDayRandom(0,UiBeamSampleTexts.length))

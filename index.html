@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ういビームチェッカー</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/sample_images/favicon.png" type="image/png">
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpg">
     <meta property="og:title" content="ういビームチェッカー">
     <meta property="og:description" content="ういビームの検閲を実施します！">
     <meta property="og:image" content="https://uibeamchecker.com/og-image.png">
@@ -17,19 +17,19 @@
     <nav>
         <div class="padding-box"></div>
         <div class="box">
-            <a href="/" onclick="loadContent('home')">ホーム</a>
-            <a href="?content=registration" onclick="loadContent('registration')">検閲対象文字登録</a>
-            <a href="?content=censorship" onclick="loadContent('censorship')">検閲を実施</a>
-            <a href="?content=usage" onclick="loadContent('usage')">使い方</a>
-            <a href="?content=contact" onclick="loadContent('contact')">お問い合わせ</a>
-            <a href="?content=special_thanks" onclick="loadContent('special_thanks')">Special Thanks</a>
+            <a href="/" onclick="changeActiveNav(0);loadContent('home')">ホーム</a>
+            <a href="?content=registration"    onclick="loadContent('registration')">検閲対象文字登録</a>
+            <a href="?content=censorship"      onclick="loadContent('censorship')">検閲を実施</a>
+            <a href="?content=usage"           onclick="loadContent('usage')">使い方</a>
+            <a href="?content=contact"         onclick="loadContent('contact')">お問い合わせ</a>
+            <a href="?content=special_thanks"  onclick="loadContent('special_thanks')">Special Thanks</a>
         </div>
     </nav>
     <main>
         <div>
-            <div class="title">
+            <div class="titleLogo">
                 <a href="/" onclick="loadContent('home')">
-                    <img src="sample_images/title.png" alt="タイトルロゴ" class="logo">
+                    <img src="images/title.png" alt="タイトルロゴ" style="max-width: 100%;">
                 </a>
             </div>
              <div id="content"></div>
