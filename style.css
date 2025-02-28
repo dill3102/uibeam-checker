@@ -13,10 +13,9 @@ body {
     height: 100vh;
     width: 60vw;
     background-color: var(--main-bg-color-1);
-    background-image: url('./sample_images/background_roop.png');
+    background-image: url('./images/background_roop.png');
     background-repeat: repeat;
 }
-
 
 nav {
     background-color:var(--main-color-1);
@@ -32,6 +31,10 @@ nav .padding-box{
     height: 18%;
     width: 100%;
     box-sizing: border-box;
+}
+
+nav .pc-only{
+    display: block;
 }
 
 nav .box{
@@ -91,7 +94,7 @@ th {
     border-radius: 5px;
     cursor: pointer;
     font-size: large;
-    text-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .executeButton:hover{
@@ -102,6 +105,7 @@ th {
 
 .tabs {
     display: flex;
+    width:50%
 }
 
 .tab {
@@ -113,8 +117,10 @@ th {
     color:white;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
-    scale: 90%;
-    transform-origin: bottom;
+    transform-origin:left bottom;
+    width:18%;
+    text-align: center;
+    /* max-width:18%; */
 }
 
 .tab.active {
@@ -126,8 +132,11 @@ th {
     color:black;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
-    scale: 110%;
-    transform-origin: bottom;
+    transform-origin:left bottom;
+    width:28%;
+    transform: scaleY(1.1);
+    text-align: center;
+    
 }
 
 /* モーダルの背景 */
@@ -169,7 +178,7 @@ th {
 }
 
 .beam-container {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -190,9 +199,29 @@ th {
     animation-iteration-count: 1;
 }
 
+.setter-buttons{
+    display: flex;
+    width: 90%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.setter-buttons .item{
+    margin: auto;
+    width: 25%;
+}
+
+.sp-only-break{
+    display: none;
+}
+
 @keyframes beam-move {
     0% {
-        right: -300px;
+        right: -200px;
         width: 10vw;
         height: 10vh;
         opacity: 1;
@@ -235,6 +264,14 @@ th {
     animation-iteration-count: 1;
 }
 
+.usage-1 {
+    padding-left: 3rem;
+    margin-left: 2.5%;
+}
+
+.usage-2 {
+    margin-left: 0%;
+}
 
 @keyframes beambg {
     0% {
@@ -250,17 +287,200 @@ th {
     }
 }
 
-
 @media (max-width: 960px){
     body{ 
         margin-left: 0%;
         width: 100vw;
     }
+
+    @keyframes beam-move {
+        0% {
+            right: -50px;
+            width: 5vw;
+            height: 5vh;
+            opacity: 1;
+            border-radius: 100%;
+        }
+        
+        20% {
+            right: -100px;
+            width: 25vw;
+            height: 25vh;
+            border-radius: 100%;
+            opacity: 1;
+        }
+        
+        30% {
+            right: 0px;
+            width: 100vw;
+            height: 50px;
+            border-radius: 0%;
+            opacity: 1;
+        }
+        
+        100% {
+            right: 0px;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0;
+            display: none;
+        }
+    }
 }
 
+/*----■■■■■■■■----■■■■■■■■-----*/
+/*----■■----------■■----■■-----*/
+/*----■■■■■■■■----■■■■■■■■-----*/
+/*----------■■----■■-----------*/
+/*----■■■■■■■■----■■-----------*/
 
 @media (max-width:768px){
-    body{ 
+    body {
+        margin: 0px;
+        display: flex;
+        height: 100vh;
         width: 100vw;
+        background-color: var(--main-bg-color-1);
+        background-image: url('./images/background_roop.png');
+        background-repeat: repeat;
+        flex-direction: column;
+    }
+
+    main {
+        overflow-y: auto;
+        padding: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 100vh;
+        max-width: 100%;
+        background-color: white;
+        outline: 2px solid white;
+    }
+
+    nav {
+        background-color:var(--main-color-1);
+        color: white;
+        width: 100vw;
+        padding: 0px;
+        display: flex;
+        outline: 2px solid white;
+    }
+
+    nav .padding-box{
+        display:none;
+    }
+    
+    nav .box{
+        color: white;
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(3, auto);
+        width: 100%;
+    }
+    
+    nav .pc-only{
+        display: none;
+    }
+    
+    nav a {
+        color: white ;
+        padding-top: 10px;
+        border: 1px solid white;
+        padding-bottom: 10px;
+        padding-left:5px;
+        padding-right:10px;
+        white-space: nowrap;
+    }
+    
+    nav a:hover {
+        background: var(--main-color-2);
+        scale: 100%;
+    }
+    
+    .titleLogo {
+        max-width:100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 4px;
+    }
+
+    .executeButton {
+        background-color: var(--main-color-1);
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size:medium;
+        white-space: nowrap;
+    }
+    
+    .executeButton:hover{
+        background-color: var(--main-color-1);
+        transform: scale(1.0); 
+        box-shadow: 2px 2px 5px var(--main-color-1);
+    }
+        
+    .setter-buttons{
+        display: flex;
+        width: 90vw;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .setter-buttons .item{
+        margin: auto;
+        width: 31%;
+    }
+
+    .usage-1 {
+        padding-left: 2rem;
+        margin-left: 1%;
+    }
+    
+    .usage-2 {
+        margin-left: -7%;
+    }
+
+    .sp-only-break{
+        display: block;
+    }
+
+    @keyframes beam-move {
+        0% {
+            right: -10px;
+            width: 2.5vw;
+            height: 2.5vh;
+            opacity: 1;
+            border-radius: 100%;
+        }
+        
+        20% {
+            right: -100px;
+            width: 12.5vw;
+            height: 12.5vh;
+            border-radius: 100%;
+            opacity: 1;
+        }
+        
+        30% {
+            right: 0px;
+            width: 100vw;
+            height: 50px;
+            border-radius: 0%;
+            opacity: 1;
+        }
+        
+        100% {
+            right: 0px;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0;
+            display: none;
+        }
     }
 }

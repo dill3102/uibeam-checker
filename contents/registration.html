@@ -6,36 +6,36 @@
     <div class="tabs">
         <div class="tab active" onclick="changeRegisterTab(0)">う</div>
         <div class="tab" onclick="changeRegisterTab(1)">い</div>
-        <div class="tab" onclick="changeRegisterTab(2)">び</div>
+        <div class="tab" onclick="changeRegisterTab(2)">ビ</div>
         <div class="tab" onclick="changeRegisterTab(3)">ー</div>
-        <div class="tab" onclick="changeRegisterTab(4)">む</div>
+        <div class="tab" onclick="changeRegisterTab(4)">ム</div>
     </div>
     <div style="border: 1px solid lightgray; display: flex; flex-direction: column; height: 40vh;">
         <div style="margin-left:auto; width:100%; display: flex; justify-content: start; text-align: center; align-items:center; padding-top:10px; padding-bottom:10px;"> 
-            <span style="text-align: start; padding-left: 10px; font-weight: bold; font-size: large;">登録された文字一覧:</span>
-            <div style="margin-left:auto; margin-right: 20px; width: 60%; display:flex; flex-direction: row;">
-                <input type="text" style="margin: auto;" id="inputField" maxlength="1" placeholder="入力欄 (1文字まで)"/>
-                <button id="submitButton" class="executeButton" style="width: 25%;" onclick="SubmitButton();">登録</button>
+            <p style="text-align: start; padding-left: 10px; margin-left: 4px; font-weight: bold; font-size: large;">
+                登録された<br class="sp-only-break">文字一覧:
+            </p>
+            <div style="margin-left:auto; margin-right: 10px; width: 35%; display:flex; flex-direction: row;">
+                <input type="text" style="margin: auto; max-width:100%" id="inputField" maxlength="1" placeholder="入力欄 (1文字まで)"/>
             </div>
+            <button id="submitButton" class="executeButton" style="width: 25%; margin-right: 10px;" onclick="SubmitButton();">登録</button>
         </div>
         <div style="display:flex; width:100%; justify-content: center;">
             <div class="bar" style="width:98%"></div>
         </div>
-
         <registered-characters-by-key id="CharacterList"></registered-characters-by-key>
     </div>
 </div>
-
 <div class="bar" style="margin-top: 15px;"></div>
 
 
 <p style="font-weight: bold; font-size: large; margin-bottom: -2px;">検閲対象の文字一覧</p>
-<div  style="width:90%; margin-bottom: 10px; margin-right: 2.5%; margin-left: 2.5%;">
+<div style="width:90%; margin-bottom: 10px; margin-right: 2.5%; margin-left: 2.5%;">
     <censorship-targets-table id="registration-taget-table" data-target="Registered"></censorship-targets-table>
 </div>
 
-<div style="display: flex; width: 90%; height: auto; align-items: center; justify-content: center; margin-top: 10px;">
-    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick='openUserDecidedModal("全消去しますか",function tmp(){removeRegisteredCharacterAll();updateList(getNowRegisterKey());updateTargetTable();})'>全消去</button>
-    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick='openUserDecidedModal("初期化しますか",function tmp(){setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();})'>初期化</button>
-    <button class="executeButton" style="margin: auto; width: 25%;" id="submitButton" onclick='openUserDecidedModal("初期化（ガチ）しますか",function tmp(){setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();})'>初期化（ガチ）</button>
+<div class="setter-buttons" style="width:90%; margin-bottom: 10px; margin-right: 2.5%; margin-left: 2.5%;">
+    <button class="executeButton item" id="submitButton" onclick='openUserDecidedModal("登録済みの文字を全て削除しますか？",function tmp(){removeRegisteredCharacterAll();updateList(getNowRegisterKey());updateTargetTable();})'>全消去</button>
+    <button class="executeButton item" id="submitButton" onclick='openUserDecidedModal("初期化を行いますか？",function tmp(){setSampleTargets();updateList(getNowRegisterKey());updateTargetTable();})'>初期化</button>
+    <button class="executeButton item" id="submitButton" onclick='openUserDecidedModal("初期化(ガチ)を行いますか？",function tmp(){setSeriousTargets();updateList(getNowRegisterKey());updateTargetTable();})'>初期化(ガチ)</button>
 </div>
